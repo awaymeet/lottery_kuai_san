@@ -28,7 +28,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 /*
- * 从Http请求发送
+ * Http请求发送
+ * send http request
  * */
 public class JHttpTools {
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 /*
  * 从网站上爬取开奖数据，后面实现将爬取的数据存入数据库此处省略
+ * Crawl the prize data from the website, and then store the crawled data in the database. This is omitted.
  * */
 public class LotteryCrawler {
 	public static void main(String[] args) {

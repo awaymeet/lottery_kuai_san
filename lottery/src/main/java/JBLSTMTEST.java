@@ -20,7 +20,8 @@ import java.io.File;
 import java.sql.*;
 
 /*
- * 预测快三开奖
+ * 训练快三
+ * training
  * */
 public class JBLSTMTEST {
 	private static int HIDDEN_LAYER_WIDTH = 18;
