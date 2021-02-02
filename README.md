@@ -1,2 +1,2 @@
-# lottery_kuai_san
+# lstm application
 Lottery ticket crawling and training and prediction
