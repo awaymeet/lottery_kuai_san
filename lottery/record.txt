@@ -1,0 +1,737 @@
+import java.util.ArrayList;
+import java.util.Date;
+
+public class WellSecurityDTO {
+    public static void main(String[] args) {
+        PointList pointList = new PointList();
+        pointList.getPoints().add(new Point("100", "111"));
+        pointList.getPoints().add(new Point("200", "211"));
+
+        InferenceResult inferenceResult1 = new InferenceResult("no_vest", pointList, "0.99", ObjectType.rectangle);
+        InferenceResult inferenceResult2 = new InferenceResult("no_vest", pointList, "0.66", ObjectType.rectangle);
+        InferenceResult inferenceResult3 = new InferenceResult("no_vest", pointList, "0.45", ObjectType.rectangle);
+
+        InferenceResultList inferenceResultList = new InferenceResultList();
+        inferenceResultList.getInferenceResults().add(inferenceResult1);
+        inferenceResultList.getInferenceResults().add(inferenceResult2);
+        inferenceResultList.getInferenceResults().add(inferenceResult3);
+
+        PictureAddressList pictureAddressList = new PictureAddressList();
+        pictureAddressList.getPictures().add("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa1.jpg");
+        pictureAddressList.getPictures().add("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa2.jpg");
+        pictureAddressList.getPictures().add("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa3.jpg");
+
+
+        MessageData messageData = new MessageData("stream_address", "video_address", pictureAddressList, inferenceResultList);
+
+        MessageProducerState messageProducerState = new MessageProducerState("true", "true", "false","1001","wwwwww");
+
+
+        MessageConsumerState messageConsumerState1 = new MessageConsumerState("true", "true", "false","1001","wwwwww");
+        MessageConsumerState messageConsumerState2 = new MessageConsumerState("true", "true", "false","1001","wwwwww");
+        MessageConsumerState messageConsumerState3 = new MessageConsumerState("true", "true", "false","1001","wwwwww");
+
+        MessageConsumerStateList messageConsumerStateList = new MessageConsumerStateList();
+        messageConsumerStateList.getMessageConsumerStates().add(messageConsumerState1);
+        messageConsumerStateList.getMessageConsumerStates().add(messageConsumerState2);
+        messageConsumerStateList.getMessageConsumerStates().add(messageConsumerState3);
+
+        Message message = new Message("muuid", ""+new Date().getTime(), ""+new Date().getTime(),messageProducerState, messageConsumerStateList,MessageType.testing, messageData, "");
+
+        System.out.println(message);
+
+    }
+}
+
+class WSTypeQualificationException extends Exception{
+
+}
+
+enum ObjectType {
+
+    rectangle("rectangle"),
+    polygon("polygon"),
+    testing("testing");
+
+    private String m;
+
+    public String getM() {
+        return m;
+    }
+
+    public void setM(String m) {
+        this.m = m;
+    }
+
+    private ObjectType(String m) {
+        this.m=m;
+    }
+
+    public static String getDesc(String mykey){
+        String isExist=null;
+        for(ObjectType sp: ObjectType.values()){
+            if(sp.toString().equals(mykey)){
+                isExist=sp.getM();
+                break;
+            }
+        }
+        return isExist;
+    }
+    /*public static void main(String[] args) {
+        System.out.println(ObjectType.getDesc(ObjectType.rectangle.toString()));
+    }*/
+}
+
+
+
+class Point {
+    private String x;
+    private String y;
+
+    public Point(String x, String y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Point() {
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+}
+
+
+class PointList{
+    private ArrayList<Point> points = new ArrayList<>();
+
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<Point> points) {
+        this.points = points;
+    }
+
+    public PointList(ArrayList<Point> points) {
+        this.points = points;
+    }
+
+    public PointList() {
+    }
+}
+
+
+
+class InferenceResult {
+    private String name;
+    private PointList point_list;
+    private String confidence;
+    private ObjectType object_type;
+
+    public InferenceResult(String name, PointList point_list, String confidence, ObjectType object_type) {
+        this.name = name;
+        this.point_list = point_list;
+        this.confidence = confidence;
+        this.object_type = object_type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public PointList getPoint_list() {
+        return point_list;
+    }
+
+    public void setPoint_list(PointList point_list) {
+        this.point_list = point_list;
+    }
+
+    public String getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(String confidence) {
+        this.confidence = confidence;
+    }
+
+    public ObjectType getObject_type() {
+        return object_type;
+    }
+
+    public void setObject_type(ObjectType object_type) {
+        this.object_type = object_type;
+    }
+}
+
+
+class InferenceResultList {
+    private ArrayList<InferenceResult> inferenceResults=new ArrayList<>();
+
+    public InferenceResultList() {
+    }
+
+    public InferenceResultList(ArrayList<InferenceResult> inferenceResults) {
+        this.inferenceResults = inferenceResults;
+    }
+
+    public ArrayList<InferenceResult> getInferenceResults() {
+        return inferenceResults;
+    }
+
+    public void setInferenceResults(ArrayList<InferenceResult> inferenceResults) {
+        this.inferenceResults = inferenceResults;
+    }
+}
+
+
+class PictureAddressList {
+    private ArrayList<String> pictures = new ArrayList<>();
+
+    public PictureAddressList(ArrayList<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public PictureAddressList() {
+    }
+}
+
+
+class MessageData {
+    private String stream_address;
+    private String video_address;
+    private PictureAddressList pictureAddressList;
+    private InferenceResultList inferenceResultList;
+
+    public MessageData() {
+    }
+
+    public String getStream_address() {
+        return stream_address;
+    }
+
+    public void setStream_address(String stream_address) {
+        this.stream_address = stream_address;
+    }
+
+    public String getVideo_address() {
+        return video_address;
+    }
+
+    public void setVideo_address(String video_address) {
+        this.video_address = video_address;
+    }
+
+    public PictureAddressList getPictureAddressList() {
+        return pictureAddressList;
+    }
+
+    public void setPictureAddressList(PictureAddressList pictureAddressList) {
+        this.pictureAddressList = pictureAddressList;
+    }
+
+    public InferenceResultList getInferenceResultList() {
+        return inferenceResultList;
+    }
+
+    public void setInferenceResultList(InferenceResultList inferenceResultList) {
+        this.inferenceResultList = inferenceResultList;
+    }
+
+    public MessageData(String stream_address, String video_address, PictureAddressList pictureAddressList, InferenceResultList inferenceResultList) {
+        this.stream_address = stream_address;
+        this.video_address = video_address;
+        this.pictureAddressList = pictureAddressList;
+        this.inferenceResultList = inferenceResultList;
+    }
+}
+
+enum MessageType {
+    wellsucurity("wellsucurity"),
+    unknown("unknown"),
+    testing("testing");
+
+    private String m;
+
+    public String getM() {
+        return m;
+    }
+
+    public void setM(String m) {
+        this.m = m;
+    }
+
+    private MessageType(String m) {
+        this.m=m;
+    }
+
+    public static String getDesc(String mykey){
+        String isExist=null;
+        for(MessageType sp: MessageType.values()){
+            if(sp.toString().equals(mykey)){
+                isExist=sp.getM();
+                break;
+            }
+        }
+        return isExist;
+    }
+    /*public static void main(String[] args) {
+        System.out.println(MessageType.getDesc(MessageType.wellsucurity.toString()));
+    }*/
+}
+
+
+
+class MessageProducerState {
+    private String start;
+    private String intermediate;
+    private String end;
+    private String id;
+    private String signature;
+
+    public MessageProducerState(String start, String intermediate, String end, String id, String signature) {
+        this.start = start;
+        this.intermediate = intermediate;
+        this.end = end;
+        this.id = id;
+        this.signature = signature;
+    }
+
+    public MessageProducerState() {
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getIntermediate() {
+        return intermediate;
+    }
+
+    public void setIntermediate(String intermediate) {
+        this.intermediate = intermediate;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+}
+
+
+
+class MessageConsumerState {
+    private String start;
+    private String intermediate;
+    private String end;
+    private String id;
+    private String signature;
+
+    public MessageConsumerState(String start, String intermediate, String end, String id, String signature) {
+        this.start = start;
+        this.intermediate = intermediate;
+        this.end = end;
+        this.id = id;
+        this.signature = signature;
+    }
+
+    public MessageConsumerState() {
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getIntermediate() {
+        return intermediate;
+    }
+
+    public void setIntermediate(String intermediate) {
+        this.intermediate = intermediate;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+}
+
+
+class MessageConsumerStateList {
+    private ArrayList<MessageConsumerState> messageConsumerStates = new ArrayList<>();
+
+    public ArrayList<MessageConsumerState> getMessageConsumerStates() {
+        return messageConsumerStates;
+    }
+
+    public MessageConsumerStateList() {
+    }
+
+    public void setMessageConsumerStates(ArrayList<MessageConsumerState> messageConsumerStates) {
+        this.messageConsumerStates = messageConsumerStates;
+    }
+
+    public MessageConsumerStateList(ArrayList<MessageConsumerState> messageConsumerStates) {
+        this.messageConsumerStates = messageConsumerStates;
+    }
+}
+class Message {
+    private String id;
+    private String start_timestamp;
+    private String end_timestamp;
+    private MessageProducerState message_producer_state;
+    private MessageConsumerStateList message_consumer_state_list;
+    private MessageType message_type;
+    private MessageData message_data;
+    private String additional_data;
+
+    public Message(String id, String start_timestamp, String end_timestamp, MessageProducerState message_producer_state, MessageConsumerStateList message_consumer_state_list, MessageType message_type, MessageData message_data, String additional_data) {
+        this.id = id;
+        this.start_timestamp = start_timestamp;
+        this.end_timestamp = end_timestamp;
+        this.message_producer_state = message_producer_state;
+        this.message_consumer_state_list = message_consumer_state_list;
+        this.message_type = message_type;
+        this.message_data = message_data;
+        this.additional_data = additional_data;
+    }
+
+    public Message() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStart_timestamp() {
+        return start_timestamp;
+    }
+
+    public void setStart_timestamp(String start_timestamp) {
+        this.start_timestamp = start_timestamp;
+    }
+
+    public String getEnd_timestamp() {
+        return end_timestamp;
+    }
+
+    public void setEnd_timestamp(String end_timestamp) {
+        this.end_timestamp = end_timestamp;
+    }
+
+    public MessageProducerState getMessage_producer_state() {
+        return message_producer_state;
+    }
+
+    public void setMessage_producer_state(MessageProducerState message_producer_state) {
+        this.message_producer_state = message_producer_state;
+    }
+
+    public MessageConsumerStateList getMessage_consumer_state_list() {
+        return message_consumer_state_list;
+    }
+
+    public void setMessage_consumer_state_list(MessageConsumerStateList message_consumer_state_list) {
+        this.message_consumer_state_list = message_consumer_state_list;
+    }
+
+    public MessageType getMessage_type() {
+        return message_type;
+    }
+
+    public void setMessage_type(MessageType message_type) {
+        this.message_type = message_type;
+    }
+
+    public MessageData getMessage_data() {
+        return message_data;
+    }
+
+    public void setMessage_data(MessageData message_data) {
+        this.message_data = message_data;
+    }
+
+    public String getAdditional_data() {
+        return additional_data;
+    }
+
+    public void setAdditional_data(String additional_data) {
+        this.additional_data = additional_data;
+    }
+}
+
+
+
+import time
+from enum import Enum
+import uuid
+
+"""
+class AppConfig:
+
+    def __init__(self):
+        self.app_name = "WellSecurity"
+
+
+class CommonUtils:
+
+    @staticmethod
+    def stand_timestamp_transfer(timestamp):
+        if timestamp is None:
+            return None
+        timestamp = str(timestamp)
+        timestamp_replace = timestamp.replace(".", "")
+        return timestamp_replace
+
+import json
+
+
+class WSJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return str(obj, encoding='utf-8')
+
+        return json.JSONEncoder.default(self, obj)
+"""
+
+
+class WSTypeQualificationException(Exception):
+    pass
+
+
+class ObjectType(Enum):
+    rectangle = 1
+    polygon = 2
+
+
+class Point:
+    def __init__(self, x: str, y: str):
+        self.x = x
+        self.y = y
+
+
+class PointList(list):
+    def append(self, temp_object):
+        if type(temp_object) is not Point:
+            raise WSTypeQualificationException("The type must be Point.")
+        super().append(temp_object)
+
+
+class InferenceResult:
+    def __init__(self, name: str, point_list: PointList, confidence: str, object_type: ObjectType):
+        self.name = name
+        self.point_list = point_list
+        self.confidence = confidence
+        self.object_type = object_type
+
+
+class InferenceResultList(list):
+    def append(self, temp_object):
+        if type(temp_object) is not InferenceResult:
+            raise WSTypeQualificationException("The type must be InferenceResult.")
+        super().append(temp_object)
+
+
+class PictureAddressList(list):
+    def append(self, temp_object):
+        if type(temp_object) is not str:
+            raise WSTypeQualificationException("The type must be str.")
+        super().append(temp_object)
+
+
+class MessageData:
+    def __init__(self, stream_address: str, video_address: str, picture_address_list: PictureAddressList,
+                 inference_result_list: InferenceResultList):
+        self.stream_address = stream_address
+        self.video_address = video_address
+        self.picture_address_list = picture_address_list
+        self.inference_result_list = inference_result_list
+
+
+"""
+class MessageProducerProcessingState(Enum):
+    start = 1
+    intermediate = 2
+    end = 3
+
+
+class MessageConsumerProcessingState(Enum):
+    start = 1
+    intermediate = 2
+    end = 3
+"""
+
+
+class MessageType(Enum):
+    wellsucurity = 1
+    unknown = 2
+    testing = 3
+
+
+class MessageProducerState:
+    def __init__(self, start=True, intermediate=False, end=False, id: str = None, signature: str = None):
+        self.start = start
+        self.intermediate = intermediate
+        self.end = end
+        self.id = id
+        self.signature = signature
+
+
+class MessageConsumerState:
+    def __init__(self, start=True, intermediate=False, end=False, id: str = None, signature: str = None):
+        self.start = start
+        self.intermediate = intermediate
+        self.end = end
+        self.id = id
+        self.signature = signature
+
+
+class MessageConsumerStateList(list):
+    def append(self, temp_object):
+        if type(temp_object) is not MessageConsumerState:
+            raise WSTypeQualificationException("The type must be MessageConsumerState.")
+        super().append(temp_object)
+
+
+class Message:
+    def __init__(self, message_id: str, start_timestamp: str, end_timestamp: str,
+                 message_producer_state: MessageProducerState, message_consumer_state_list: MessageConsumerStateList,
+                 message_type: MessageType,
+                 message_data: MessageData, additional_data: dict):
+        if message_id is None:
+            self.message_id = uuid.uuid1()
+        else:
+            self.message_id = message_id
+
+        if start_timestamp is None:
+            self.start_timestamp = time.time()
+        else:
+            self.start_timestamp = start_timestamp
+
+        self.end_timestamp = end_timestamp
+        self.message_producer_state = message_producer_state
+        self.message_consumer_state_list = message_consumer_state_list
+        self.message_type = message_type
+        self.message_data = message_data
+        self.additional_data = additional_data
+
+
+if __name__ == '__main__':
+    pointList = PointList(list())
+    pointList.append(Point(100, 111))
+    pointList.append(Point(200, 211))
+
+    inferenceResult1 = InferenceResult(name="no_vest", point_list=pointList, confidence="0.99",
+                                       object_type=ObjectType.rectangle)
+    inferenceResult2 = InferenceResult(name="no_helmet", point_list=pointList, confidence="0.61",
+                                       object_type=ObjectType.rectangle)
+    inferenceResult3 = InferenceResult(name="pedestrian", point_list=pointList, confidence="0.47",
+                                       object_type=ObjectType.rectangle)
+
+    inferenceResultList = InferenceResultList(list())
+    inferenceResultList.append(inferenceResult1)
+    inferenceResultList.append(inferenceResult2)
+    inferenceResultList.append(inferenceResult3)
+
+    pictureAddressList = PictureAddressList(list())
+    pictureAddressList.append("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa1.jpg")
+    pictureAddressList.append("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa2.jpg")
+    pictureAddressList.append("http://a.com/wellsecurity/yantian/static/2021/06/28/07/33/camera1001/aaa3.jpg")
+
+    messageData = MessageData(stream_address="stream_address", video_address="video_address",
+                              picture_address_list=pictureAddressList, inference_result_list=inferenceResultList)
+
+    messageProducerState = MessageProducerState(start=True, intermediate=True, end=False, id="1001",
+                                                signature="wwwwww")
+
+    messageConsumerState1 = MessageConsumerState(start=True, intermediate=True, end=False, id="2001",
+                                                 signature="dfsdfdsf")
+    messageConsumerState2 = MessageConsumerState(start=True, intermediate=True, end=False, id="2002",
+                                                 signature="mmmmmmmk")
+    messageConsumerState3 = MessageConsumerState(start=True, intermediate=True, end=False, id="2003",
+                                                 signature="vvvvvvvv")
+    messageConsumerStateList = MessageConsumerStateList()
+    messageConsumerStateList.append(messageConsumerState1)
+    messageConsumerStateList.append(messageConsumerState2)
+    messageConsumerStateList.append(messageConsumerState3)
+
+    message = Message(message_id="muuid", start_timestamp=time.time(), end_timestamp=None,
+                      message_producer_state=messageProducerState, message_consumer_state_list=messageConsumerStateList,
+                      message_type=MessageType.testing, message_data=messageData, additional_data=dict())
+    print(message)
+    print(str(message))
